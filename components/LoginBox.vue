@@ -37,24 +37,6 @@ export default class LoginBox extends Vue {
       console.log("Token not found");
     }
 
-    // const formData = querystring.stringify({
-    //   Username: "Bjarke070990",
-    //   Password: "Lost4815162342",
-    //   __RequestVerificationToken: this.extractedToken
-
-    // });
-
-
-    // // Axios POST request with URL-encoded data
-    // var resp = await this.$axios.post('https://selvbetjening.rejsekort.dk/CWS/Home/Index', formData, {
-    //   withCredentials: true,
-    //   headers: {
-    //     'Content-Type': 'application/x-www-form-urlencoded',
-    //     'Cookies': cookies.join('; '),
-    //   }
-    // });
-
-    // console.log(resp);
 
   }
 }
