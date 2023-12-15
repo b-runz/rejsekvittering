@@ -46,7 +46,7 @@ export default class LoginBox extends Vue {
 
 
     // // Axios POST request with URL-encoded data
-    // var resp = await this.$axios.post('https://selvbetjening.rejsekort.dk/CWS/Home/UserNameLogin', formData, {
+    // var resp = await this.$axios.post('https://selvbetjening.rejsekort.dk/CWS/Home/Index', formData, {
     //   withCredentials: true,
     //   headers: {
     //     'Content-Type': 'application/x-www-form-urlencoded',
