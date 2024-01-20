@@ -1,5 +1,7 @@
-import LoginBox from "./LoginBox"
+import LoginBox from './LoginBox';
 
 export default function Page() {
-  return <LoginBox></LoginBox>
+  return (
+    <LoginBox></LoginBox>    
+  );
 }
