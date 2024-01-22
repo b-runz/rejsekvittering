@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import {requestRejseplan,HttpMethod} from '@/lib/RejseplanRequest'
+import { headers } from 'next/headers'
 
 interface TokenValue {
     token: string;
@@ -17,8 +18,11 @@ export default async function LoginBox() {
         const rejseplanLoginPage = await requestRejseplan("https://selvbetjening.rejsekort.dk/CWS/Home/UserNameLogin", HttpMethod.GET)
         const regexPattern = /<input[^>]*name="__RequestVerificationToken"[^>]*value="([^"]*)"[^>]*>/;
         const extractedToken = (rejseplanLoginPage).match(regexPattern)?.[1] || ""
+        
+        //dummy header pull, to have the component be dynamic
+        const headersList = headers()        
 
-        return { token: extractedToken }
+        return { token: extractedToken}
     }
 
     async function performLogin(formData: FormData) {
