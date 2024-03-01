@@ -14,16 +14,16 @@ interface UsernamePassword {
 
 export default async function LoginBox() {
     
-    async function fetchToken(): Promise<TokenValue> {
-        const rejseplanLoginPage = await requestRejseplan("https://selvbetjening.rejsekort.dk/CWS/Home/UserNameLogin", HttpMethod.GET)
-        const regexPattern = /<input[^>]*name="__RequestVerificationToken"[^>]*value="([^"]*)"[^>]*>/;
-        const extractedToken = (rejseplanLoginPage).match(regexPattern)?.[1] || ""
+    // async function fetchToken(): Promise<TokenValue> {
+    //     const rejseplanLoginPage = await requestRejseplan("https://selvbetjening.rejsekort.dk/CWS/Home/UserNameLogin", HttpMethod.GET)
+    //     const regexPattern = /<input[^>]*name="__RequestVerificationToken"[^>]*value="([^"]*)"[^>]*>/;
+    //     const extractedToken = (rejseplanLoginPage).match(regexPattern)?.[1] || ""
         
-        //dummy header pull, to have the component be dynamic
-        const headersList = headers()        
+    //     //dummy header pull, to have the component be dynamic
+    //     const headersList = headers()        
 
-        return { token: extractedToken}
-    }
+    //     return { token: extractedToken}
+    // }
 
     async function performLogin(formData: FormData) {
         'use server'
@@ -31,12 +31,12 @@ export default async function LoginBox() {
         redirect('/trips')
     }
 
-    const token = await fetchToken()
+    // const token = await fetchToken()
     return (
         <div className="bg-white p-8 rounded shadow-md w-96">
             <h1 className="text-2xl font-semibold mb-6">Login</h1>
             <form action={performLogin} method="post">
-                <input name="__RequestVerificationToken" type="hidden" value={token.token} />
+                {/* <input name="__RequestVerificationToken" type="hidden" value={token.token} /> */}
                 <input id="ReturnUrl" name="ReturnUrl" type="hidden" value="" />
                 <div className="mb-4">
                     <label htmlFor="username" className="block text-gray-600 text-sm font-medium mb-2">
@@ -53,7 +53,7 @@ export default async function LoginBox() {
                 <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue">
                     Login
                 </button>
-                <label>{token.token}</label>
+                {/* <label>{token.token}</label> */}
             </form>
         </div>
     );

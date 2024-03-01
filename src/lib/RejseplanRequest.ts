@@ -1,6 +1,5 @@
 import * as https from 'https';
 import { IncomingHttpHeaders } from 'http';
-import { headers } from 'next/headers';
 import { Tabletojson } from 'tabletojson';
 
 enum HttpMethod {
@@ -26,12 +25,12 @@ interface Cookie {
   [key: string]: string;
 }
 
-export interface RejseAndNextPage {
-  rejser: Rejse[],
+export interface TripAndNextPage {
+  trips: Trip[],
   nextPage: NextPage
 }
 
-export interface Rejse {
+export interface Trip {
   date: Date
   from: string
   arrival: Date
@@ -146,11 +145,11 @@ export async function login(username: string, password: string): Promise<Cookie>
 
 }
 
-export async function getTravelHistoryNextPage(nextpage: NextPage):Promise<RejseAndNextPage> {
-  return getTravelHistory(nextpage.pageIndex + 5, nextpage.cookie, nextpage.verificationToken)
+export async function getTravelHistoryNextPage(nextpage: NextPage):Promise<TripAndNextPage> {
+  return getTravelHistory(nextpage.cookie, nextpage.pageIndex + 5, nextpage.verificationToken)
 }
 
-export async function getTravelHistory(page: number, cookies: Cookie, historyToken?: string): Promise<RejseAndNextPage> {
+export async function getTravelHistory(cookies: Cookie, page: number = 1, historyToken?: string): Promise<TripAndNextPage> {
   if (!historyToken) {
     const travelHistory = await requestRejseplan("https://selvbetjening.rejsekort.dk/CWS/TransactionServices/TravelCardHistory", HttpMethod.GET, { "Cookie": formatCookies(cookies) })
     historyToken = getInputVerificationToken(travelHistory.responseData)
@@ -176,9 +175,9 @@ export async function getTravelHistory(page: number, cookies: Cookie, historyTok
       entry["Rejsenr."] !== undefined && entry["Rejsenr."] !== "" &&
       arr.findIndex(e => e["Rejsenr."] === entry["Rejsenr."]) === index
     ));
-  let rejser: Rejse[] = [];
+  let trips: Trip[] = [];
   for (const rejse of filteredAndFlattenedData) {
-    rejser.push({
+    trips.push({
       date: parseDateString(rejse.Dato + " " + rejse.Tid),
       from: rejse.Fra,
       arrival: parseDateString(rejse.Dato + " " + rejse.Tid_2),
@@ -187,6 +186,6 @@ export async function getTravelHistory(page: number, cookies: Cookie, historyTok
     })
   }
 
-  return { rejser: rejser, nextPage: { verificationToken: nextPageVerificationToken, cookie: cookies, pageIndex: page } };
+  return { trips: trips, nextPage: { verificationToken: nextPageVerificationToken, cookie: cookies, pageIndex: page } };
 }
 
