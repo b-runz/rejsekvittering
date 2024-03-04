@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import {requestRejseplan,HttpMethod} from '@/lib/RejseplanRequest'
+// import {requestRejseplan,HttpMethod} from '@/lib/RejseplanRequest'
 import { headers } from 'next/headers'
 
 interface TokenValue {

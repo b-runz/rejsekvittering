@@ -1,6 +1,7 @@
 import * as https from 'https';
 import { IncomingHttpHeaders } from 'http';
 import { Tabletojson } from 'tabletojson';
+import crypto from 'crypto';
 
 enum HttpMethod {
   GET = 'GET',
@@ -42,6 +43,12 @@ interface NextPage {
   verificationToken: string
   cookie: Cookie
   pageIndex: number
+}
+export function getGuid(trip: Trip): string{
+  const hasher = crypto.createHash('sha256');
+  const data = `${trip.to}${trip.amount}`; // concatenate the strings
+  hasher.update(data);
+  return hasher.digest('hex');
 }
 
 function requestRejseplan(path: string, method: HttpMethod, headers: Headers = {}, data: string = ""): Promise<HttpResponse> {
