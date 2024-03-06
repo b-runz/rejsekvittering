@@ -15,7 +15,7 @@ export default async function Receipt({ trip, identity }: ReceiptProps): Promise
   return (
     <div>
       <div className="bg-white pt-8 pb-8 rounded shadow-md max-w-96 mx-auto" id={identity}>
-        <Image src={'/rk.png'} alt="Logo" width={200} height={10} style={{paddingLeft: 25}}></Image>
+        <Image src={'/rk.svg'} alt="Logo" width={180} height={27} style={{paddingLeft: 25}}></Image>
         <table>
           <tbody>
             <tr>
