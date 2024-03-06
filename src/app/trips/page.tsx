@@ -42,7 +42,7 @@ async function fetchTrips(): Promise<Trip[]> {
       date: new Date(),
       from: "Linje : 118 Aarhus Rutebilstation",
       arrival: new Date(),
-      to: "Linje : 5118 Trige/Randersvej (Aarhus Kom)",
+      to: "Linje : 5118 Trige Trige Trige Trige Trige TrigeTrigeTrige Trige  Trige Trige Trige Trige TrigeTrigeTrigeTrige   Trige Trige Trige Trige/Randersvej (Aarhus Kom)",
       amount: "-28,80"
     },
     {

@@ -1,59 +1,47 @@
 import React from "react";
-import {Trip} from '@/lib/RejseplanRequest'
-import PrintButton from "./PrintButton"
+import { Trip } from '@/lib/RejseplanRequest'
+import styles from './Receipt.module.css'
+import PrintButton from "./PrintButton";
+import Image from 'next/image'
 
 interface ReceiptProps {
-    trip: Trip;
-    identity: string
-  }
+  trip: Trip;
+  identity: string
+}
 export default async function Receipt({ trip, identity }: ReceiptProps): Promise<JSX.Element> {
-    const formatDate = (date: Date) => {
-        return new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
-      };
-    return(
-
-  <div className="bg-white p-8 rounded shadow-md max-w-md mx-auto" id={identity}>
-    <h2 className="text-2xl font-semibold mb-4">Receipt</h2>
-    <div className="grid grid-cols-5">
-      <div className="col-span-1">
-        <div className="mb-4 col-span-1">
-          <span className="text-gray-600">Date:</span>
-        </div>
-        <div className="mb-4">
-          <span className="text-gray-600">From:</span>
-        </div>
-        <div className="mb-4">
-          <span className="text-gray-600">Arrival:</span>
-        </div>
-        <div className="mb-4">
-          <span className="text-gray-600">To:</span>
-        </div>
+  const formatDate = (date: Date) => {
+    return new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
+  };
+  return (
+    <div>
+      <div className="bg-white pt-8 pb-8 rounded shadow-md max-w-96 mx-auto" id={identity}>
+        <Image src={'/rk.png'} alt="Logo" width={200} height={10} style={{paddingLeft: 25}}></Image>
+        <table>
+          <tbody>
+            <tr>
+              <th>Date:</th>
+              <td>{formatDate(trip.date)}</td>
+            </tr>
+            <tr>
+              <th>From:</th>
+              <td>{trip.from}</td>
+            </tr>
+            <tr>
+              <th>Arrival:</th>
+              <td>{formatDate(trip.arrival)}</td>
+            </tr>
+            <tr>
+              <th>To:<div className={styles.spacer}></div></th>
+              <td>{trip.to}<div className={styles.spacer}></div></td>
+            </tr>
+            <tr className={styles.amountBorder}>
+              <th><div className="text-xl">Amount:</div></th>
+              <td><div className="text-xl">{trip.amount}</div></td>
+            </tr>
+          </tbody>
+        </table>
+        <PrintButton identity={identity}></PrintButton>
       </div>
-      <div className="col-span-4">
-        <div className="mb-4">
-          <span className="font-semibold">{formatDate(trip.date)}</span>
-        </div>
-        <div className="mb-4">
-          <span className="font-semibold">{trip.from}</span>
-        </div>
-        <div className="mb-4">
-          <span className="font-semibold">{formatDate(trip.arrival)}</span>
-        </div>
-        <div className="mb-4">
-          <span className="font-semibold">{trip.to}</span>
-        </div>
-      </div>
-      <div className="mb-4 col-span-5">
-        <hr />
-      </div>
-      <div className="mb-4 col-span-1">
-        <span className="text-lg text-gray-600">Amount:</span>
-      </div>
-      <div className="mb-4 col-span-4">
-        <span className="font-bold text-lg">{trip.amount}</span>
-      </div>
-      <PrintButton identity={identity}></PrintButton>
     </div>
-  </div>      
-    )
+  )
 }
