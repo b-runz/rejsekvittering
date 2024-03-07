@@ -3,7 +3,7 @@ import { Trip } from '@/lib/RejseplanRequest'
 import styles from './Receipt.module.css'
 import PrintButton from "./PrintButton";
 import Image from 'next/image'
-import SelectTripCheckbox from "./SelectTripCheckBox";
+import SelectTripCheckbox from "./SelectTripCheckbox";
 
 interface ReceiptProps {
   trip: Trip;
