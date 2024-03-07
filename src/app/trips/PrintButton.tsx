@@ -16,28 +16,33 @@ export default function PrintButton({ identity }: ButtonProps): ReactElement<any
             clonedElement.style.zIndex = "-1"
             document.body.prepend(clonedElement);
 
-            const childNodeId = `b_${identity}`;
+            const buttonNode = `b_${identity}`;
+            const checkboxNode = `ch_${identity}`;
 
-            const childNode = clonedElement.querySelector(`[id=${childNodeId}]`);
-            console.log(clonedElement)
+            const buttonChild = clonedElement.querySelector(`[id=${buttonNode}]`);
+            const checkboxChild = clonedElement.querySelector(`[id=${checkboxNode}]`);
 
-            if (childNode) {
-                childNode.remove()
+            if (buttonChild && checkboxChild) {
+                buttonChild.remove()
+                checkboxChild.remove()
             }
 
             const classList = Array.from(element.classList);
-            const updatedClassList = classList.filter(className => className !== 'shadow-md');
+            let updatedClassList = classList.filter(className => className !== 'shadow-md');
+            clonedElement.className = updatedClassList.join(' ');
+
+            updatedClassList = classList.filter(className => className !== 'border-2');
             clonedElement.className = updatedClassList.join(' ');
 
             html2canvas(clonedElement).then(canvas => {
                 const dataURL = canvas.toDataURL('image/png');
                 const downloadLink = document.createElement('a');
                 downloadLink.href = dataURL;
-                downloadLink.download = 'captured_image.png';
+                downloadLink.download = `${identity}_image.png`;
                 downloadLink.click();
             })
             clonedElement.remove();
 
-        }} id={"b_" + identity}>Print</button>
+        }} id={"b_" + identity} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" style={{marginLeft: 20}}>Print</button>
     )
 }
