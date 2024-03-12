@@ -1,6 +1,5 @@
-import { Trip, getGuid } from '@/lib/RejseplanRequest'
-import Receipt from './Receipt';
-import { zIndex } from 'html2canvas/dist/types/css/property-descriptors/z-index';
+import { Trip } from '@/lib/RejseplanRequest'
+import ReceiptParentView from './ReceiptParentView'
 async function fetchTrips(): Promise<Trip[]> {
   return [
     {
@@ -87,15 +86,11 @@ export default async function Page() {
   const trips: Trip[] = await fetchTrips()
 
   return (
-    <div className="p-8 w-full bg-gray-100" style={{zIndex: 4}}>
+    <div className="w-full bg-gray-100" style={{zIndex: 4}}>
       <div className="flex items-center justify-center pb-16">
         <p className="text-4xl font-bold">Receipts</p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-        {trips.map((trip, id) => (
-          <Receipt trip={trip} identity={getGuid(trip)} key={id}></Receipt>
-        ))}
-      </div>
+      <ReceiptParentView trips={trips}></ReceiptParentView>
     </div>
   );
 }
