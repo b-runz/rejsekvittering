@@ -56,8 +56,8 @@ export default function ReceiptParentView({ trips }: ReceiptProps): ReactElement
             recpts: {checkedReceipts.size}
 
             {checkedReceipts.size > 0 && (
-                <div className="fixed bottom-0 w-full">
-                    <button onClick={printAll}>TETSTST</button>
+                <div className="fixed bottom-0 w-full bg-gray-200 flex justify-center items-center">
+                    <button onClick={printAll} className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white m-2 py-2 px-4 border border-blue-500 hover:border-transparent rounded">Print Selected Receipts</button>
                 </div>
             )}
 
