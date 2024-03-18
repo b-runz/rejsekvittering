@@ -1,8 +1,9 @@
 'use client'
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { Trip, getGuid } from '@/lib/RejseplanRequest'
 import { getPictureBytes } from '@/lib/PicturePrint'
-import Receipt from './Receipt';
+import ReceiptBigScreen from './ReceiptBigScreen';
+import ReceiptSmallScreen from './ReceiptSmallScreen';
 
 interface ReceiptProps {
     trips: Trip[];
@@ -10,6 +11,10 @@ interface ReceiptProps {
 
 export default function ReceiptParentView({ trips }: ReceiptProps): ReactElement<any, any> {
     const [checkedReceipts, setCheckedReceipts] = React.useState(new Set<string>());
+    const [width,setWidth] = React.useState(0);
+    useEffect(() =>{
+        setWidth(window.innerWidth);
+    })
 
     function removeCheckedFromPrintAll(checked: string): void {
         setCheckedReceipts(function (prev: Set<string>): Set<string> {
@@ -50,10 +55,12 @@ export default function ReceiptParentView({ trips }: ReceiptProps): ReactElement
         <div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
                 {trips.map((trip, id) => (
-                    <Receipt trip={trip} identity={getGuid(trip)} key={id} addRemoveFunc={{ add: addCheckedFromPrintAll, remove: removeCheckedFromPrintAll }}></Receipt>
+                    width < 768 ?
+                    <ReceiptSmallScreen trip={trip} identity={getGuid(trip)} key={id} addRemoveFunc={{ add: addCheckedFromPrintAll, remove: removeCheckedFromPrintAll }}></ReceiptSmallScreen>
+                    :
+                    <ReceiptBigScreen trip={trip} identity={getGuid(trip)} key={id} addRemoveFunc={{ add: addCheckedFromPrintAll, remove: removeCheckedFromPrintAll }}></ReceiptBigScreen>
                 ))}
             </div>
-            recpts: {checkedReceipts.size}
 
             {checkedReceipts.size > 0 && (
                 <div className="fixed bottom-0 w-full bg-gray-200 flex justify-center items-center">

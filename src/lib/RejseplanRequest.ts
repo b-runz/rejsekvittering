@@ -36,7 +36,8 @@ export interface Trip {
   from: string
   arrival: Date
   to: string
-  amount: string
+  amount: string,
+  printed: boolean
 }
 
 interface NextPage {

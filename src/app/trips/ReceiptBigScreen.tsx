@@ -12,7 +12,7 @@ interface ReceiptProps {
   identity: string;
   addRemoveFunc: {add: (checked: string) => void, remove: (checked: string)  => void}
 }
-export default function Receipt({ trip, identity, addRemoveFunc  }: ReceiptProps): ReactElement<any, any> {
+export default function ReceiptBigScreen({ trip, identity, addRemoveFunc  }: ReceiptProps): ReactElement<any, any> {
   const formatDate = (date: Date) => {
     return new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
   };
@@ -32,12 +32,13 @@ export default function Receipt({ trip, identity, addRemoveFunc  }: ReceiptProps
 
   return (
     <div>
-      <div className={`bg-white pb-2 rounded shadow-md max-w-96 mx-auto ${borderColor} border-2`} id={identity}>
+      <div className={`${trip.printed ? 'bg-gray-400' : 'bg-white'} pb-2 rounded shadow-md max-w-96 mx-auto ${borderColor} border-2`} id={identity}>
         <div className="relative w-full">
           <Image src={'/rk.svg'} alt="Logo" width={180} height={27} style={{ paddingLeft: 25 }} className="absolute top-0 left-0 p-3"></Image>
           <SelectTripCheckbox parentAction={toggleBorder} identity={identity}></SelectTripCheckbox>
         </div>
         <div className="pt-8">
+        {trip.printed && <h1 className="text-xl font-bold text-center">This trip is printed</h1>}
           <table>
             <tbody>
               <tr>

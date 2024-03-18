@@ -7,77 +7,88 @@ async function fetchTrips(): Promise<Trip[]> {
       from: "Linje : 118 Aarhus Rutebilstation",
       arrival: new Date(),
       to: "Linje : 0118 Trige/Randersvej (Aarhus Kom)",
-      amount: "-28,80"
+      amount: "-28,80",
+      printed: true
     },
     {
       date: new Date(),
       from: "Linje : 118 Aarhus Rutebilstation",
       arrival: new Date(),
       to: "Linje : 1118 Trige/Randersvej (Aarhus Kom)",
-      amount: "-28,80"
+      amount: "-28,80",
+      printed: true
     },
     {
       date: new Date(),
       from: "Linje : 118 Aarhus Rutebilstation",
       arrival: new Date(),
       to: "Linje : 2118 Trige/Randersvej (Aarhus Kom)",
-      amount: "-28,80"
+      amount: "-28,80",
+      printed: false
     },
     {
       date: new Date(),
       from: "Linje : 118 Aarhus Rutebilstation",
       arrival: new Date(),
       to: "Linje : 3118 Trige/Randersvej (Aarhus Kom)",
-      amount: "-28,80"
+      amount: "-28,80",
+      printed: false
     },
     {
       date: new Date(),
       from: "Linje : 118 Aarhus Rutebilstation",
       arrival: new Date(),
       to: "Linje : 4118 Trige/Randersvej (Aarhus Kom)",
-      amount: "-28,80"
+      amount: "-28,80",
+      printed: false
     },
     {
       date: new Date(),
       from: "Linje : 118 Aarhus Rutebilstation",
       arrival: new Date(),
       to: "Linje : 5118 Trige Trige Trige Trige Trige TrigeTrigeTrige Trige  Trige Trige Trige Trige TrigeTrigeTrigeTrige   Trige Trige Trige Trige/Randersvej (Aarhus Kom)",
-      amount: "-28,80"
+      amount: "-28,80",
+      printed: false
     },
     {
       date: new Date(),
       from: "Linje : 118 Aarhus Rutebilstation",
       arrival: new Date(),
       to: "Linje : 6118 Trige/Randersvej (Aarhus Kom)",
-      amount: "-28,80"
+      amount: "-28,80",
+      printed: false
     },
     {
       date: new Date(),
       from: "Linje : 118 Aarhus Rutebilstation",
       arrival: new Date(),
       to: "Linje : 7118 Trige/Randersvej (Aarhus Kom)",
-      amount: "-28,80"
+      amount: "-28,80",
+      printed: false
     },
     {
       date: new Date(),
       from: "Linje : 118 Aarhus Rutebilstation",
       arrival: new Date(),
       to: "Linje : 8118 Trige/Randersvej (Aarhus Kom)",
-      amount: "-28,80"
+      amount: "-28,80",
+      printed: false
     },
     {
       date: new Date(),
       from: "Linje : 118 Aarhus Rutebilstation",
       arrival: new Date(),
       to: "Linje : 9118 Trige/Randersvej (Aarhus Kom)",
-      amount: "-28,80"
+      amount: "-28,80",
+      printed: false
     },
     {
       date: new Date(),
       from: "Linje : 118 Aarhus Rutebilstation",
       arrival: new Date(),
       to: "Linje : 10118 Trige/Randersvej (Aarhus Kom)",
-      amount: "-28,80"
+      amount: "-28,80",
+      printed: false
     },
   ]
 }
