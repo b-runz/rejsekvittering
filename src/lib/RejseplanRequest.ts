@@ -190,7 +190,8 @@ export async function getTravelHistory(cookies: Cookie, page: number = 1, histor
       from: rejse.Fra,
       arrival: parseDateString(rejse.Dato + " " + rejse.Tid_2),
       to: rejse.Til,
-      amount: rejse['Beloeb kr.']
+      amount: rejse['Beloeb kr.'],
+      printed: false
     })
   }
 
