@@ -37,7 +37,7 @@ export default function ReceiptSmallScreen({ trip, identity, addRemoveFunc }: Re
           </div>
         </div>
         <div className={`${folded ? '' : 'hidden'}`}>
-          <ReceiptCommon trip={trip} parentAction={toggleBorder} identity={identity} addRemoveFunc={addRemoveFunc} setBorderColor={setBorderColor}></ReceiptCommon>
+        <ReceiptCommon trip={trip} identity={identity} parentActionWithBorderChange={{addRemoveBorderColor:{addRemoveFunc: addRemoveFunc, setBorderColor: setBorderColor}, toggleBorder: toggleBorder }}></ReceiptCommon>
         </div>
       </div>
     </div>

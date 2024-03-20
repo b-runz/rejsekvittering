@@ -1,20 +1,17 @@
 'use client'
 
 import React, { ReactElement } from "react"
-import { AddRemoveFunction } from '@/lib/AddRemoveFunction'
+import { ParentActionWithBorderChange } from '@/lib/AddRemoveFunction'
 
 interface CheckboxProps {
-  parentAction: (checkboxEvent: React.ChangeEvent<HTMLInputElement>, identity: string, addRemoveFunc: AddRemoveFunction, 
-    setBorderColor: React.Dispatch<React.SetStateAction<string>>) => void ;
+  parentActionWithBorderChange: ParentActionWithBorderChange;
   identity: string; 
-  addRemoveFunc: AddRemoveFunction  
-  setBorderColor: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function SelectTripCheckbox({ parentAction, identity, addRemoveFunc, setBorderColor}: CheckboxProps): ReactElement<any, any> {
+export default function SelectTripCheckbox({ identity, parentActionWithBorderChange}: CheckboxProps): ReactElement<any, any> {
     return (
         <input 
-        onChange={event => parentAction(event, identity, addRemoveFunc, setBorderColor)} style={{margin:3}} 
+        onChange={event => parentActionWithBorderChange.toggleBorder(event, identity, parentActionWithBorderChange.addRemoveBorderColor)} style={{margin:3}} 
         id={"ch_" + identity}
         type="checkbox" 
         value="" 

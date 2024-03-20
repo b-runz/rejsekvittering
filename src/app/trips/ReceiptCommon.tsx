@@ -6,18 +6,14 @@ import styles from './Receipt.module.css'
 import PrintButton from "./PrintButton";
 import Image from 'next/image'
 import SelectTripCheckbox from "./SelectTripCheckbox";
-import { AddRemoveFunction } from '@/lib/AddRemoveFunction'
+import { ParentActionWithBorderChange} from '@/lib/AddRemoveFunction'
 
 interface ReceiptProps {
     trip: Trip;
     identity: string;
-    parentAction: (checkboxEvent: React.ChangeEvent<HTMLInputElement>, identity: string, addRemoveFunc: AddRemoveFunction, 
-        setBorderColor: React.Dispatch<React.SetStateAction<string>>) => void ;
-    addRemoveFunc: AddRemoveFunction
-    
-    setBorderColor: React.Dispatch<React.SetStateAction<string>>;
+    parentActionWithBorderChange: ParentActionWithBorderChange;
 }
-export default function ReceiptCommon({ trip, identity, parentAction, addRemoveFunc, setBorderColor }: ReceiptProps): ReactElement<any, any> {
+export default function ReceiptCommon({ trip, identity, parentActionWithBorderChange }: ReceiptProps): ReactElement<any, any> {
     const formatDate = (date: Date) => {
         return new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
     };
@@ -27,7 +23,7 @@ export default function ReceiptCommon({ trip, identity, parentAction, addRemoveF
         <div>
             <div className="relative w-full">
                 <Image src={'/rk.svg'} alt="Logo" width={180} height={27} style={{ paddingLeft: 25 }} className="absolute top-0 left-0 p-3"></Image>
-                <SelectTripCheckbox parentAction={parentAction} identity={identity} addRemoveFunc={addRemoveFunc} setBorderColor={setBorderColor}></SelectTripCheckbox>
+                <SelectTripCheckbox identity={identity} parentActionWithBorderChange={parentActionWithBorderChange}></SelectTripCheckbox>
             </div>
             <div className="pt-8">
                 {trip.printed && <h1 className="text-xl font-bold text-center">This trip is printed</h1>}

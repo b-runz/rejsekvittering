@@ -17,7 +17,7 @@ export default function ReceiptBigScreen({ trip, identity, addRemoveFunc }: Rece
   return (
     <div>
       <div className={`${trip.printed ? 'bg-gray-400' : 'bg-white'} pb-2 rounded shadow-md max-w-96 mx-auto ${borderColor} border-2`} id={identity}>
-        <ReceiptCommon trip={trip} parentAction={toggleBorder} identity={identity} addRemoveFunc={addRemoveFunc} setBorderColor={setBorderColor}></ReceiptCommon>
+        <ReceiptCommon trip={trip} identity={identity} parentActionWithBorderChange={{addRemoveBorderColor:{addRemoveFunc: addRemoveFunc, setBorderColor: setBorderColor}, toggleBorder: toggleBorder }}></ReceiptCommon>
       </div>
     </div>
   )

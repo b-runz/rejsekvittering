@@ -1,16 +1,31 @@
-export interface AddRemoveFunction {
-    add: (checked: string) => void;
-    remove: (checked: string) => void;
-}
+export type AddRemoveFunction = {
+  add: (checked: string) => void;
+  remove: (checked: string) => void;
+};
 
-export function toggleBorder(checkboxEvent: React.ChangeEvent<HTMLInputElement>, identity: string, addRemoveFunc: AddRemoveFunction, 
-    setBorderColor: React.Dispatch<React.SetStateAction<string>>) {
+export type ParentActionFunction = (
+  checkboxEvent: React.ChangeEvent<HTMLInputElement>,
+  identity: string,
+  AddRemoveBorderColor: AddRemoveBorderColor
+) => void;
+
+export type AddRemoveBorderColor = {
+  addRemoveFunc: AddRemoveFunction;
+  setBorderColor: React.Dispatch<React.SetStateAction<string>>;
+ };
+
+ export type ParentActionWithBorderChange = {
+  toggleBorder: ParentActionFunction;
+  addRemoveBorderColor: AddRemoveBorderColor
+ }
+
+ export const toggleBorder: ParentActionFunction = (checkboxEvent, identity, addRemoveBorderColor) => {
     const checkbox = checkboxEvent.target;
     if (checkbox.checked) {
-      setBorderColor('border-blue-500');
-      addRemoveFunc.add(identity);
+      addRemoveBorderColor.setBorderColor('border-blue-500');
+      addRemoveBorderColor.addRemoveFunc.add(identity);
     } else {
-      setBorderColor('border-gray-100');
-      addRemoveFunc.remove(identity);
+      addRemoveBorderColor.setBorderColor('border-gray-100');
+      addRemoveBorderColor.addRemoveFunc.remove(identity);
     }
   }
