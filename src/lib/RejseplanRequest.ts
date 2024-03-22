@@ -1,25 +1,17 @@
+'use server'
+
 import * as https from 'https';
-import { IncomingHttpHeaders } from 'http';
+import { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
 import { Tabletojson } from 'tabletojson';
-import crypto from 'crypto';
 
 enum HttpMethod {
   GET = 'GET',
   POST = 'POST',
 }
 
-interface RequestOptions {
-  method: HttpMethod;
-  headers?: any;
-}
-
 interface HttpResponse {
   responseData: string;
   responseHeaders: IncomingHttpHeaders;
-}
-
-interface Headers {
-  [key: string]: string;
 }
 
 interface Cookie {
@@ -41,26 +33,31 @@ export interface Trip {
   id: number
 }
 
-interface NextPage {
+export interface NextPage {
   verificationToken: string
   cookie: Cookie
   pageIndex: number
 }
-export function getGuid(trip: Trip): string{
-  const hasher = crypto.createHash('sha256');
-  const data = `${trip.to}${trip.amount}${trip.id}`; // concatenate the strings
-  hasher.update(data);
-  return hasher.digest('hex');
-}
 
-function requestRejseplan(path: string, method: HttpMethod, headers: Headers = {}, data: string = ""): Promise<HttpResponse> {
+function requestRejseplan(path: string, method: HttpMethod, headers: OutgoingHttpHeaders = {}, data: string = ""): Promise<HttpResponse> {
   return new Promise((resolve, reject) => {
-    const options: RequestOptions = {
-      method,
-      headers
+    
+    const url = require('url');
+    const parsedUrl = url.parse(path);
+    const host = parsedUrl.host;
+    const reqPath = parsedUrl.pathname;
+
+    const options: https.RequestOptions = {
+      host: host,
+      port: 443,
+      path: reqPath,
+      method: method,
+      headers: headers
     };
 
-    const req = https.request(path, options, (res) => {
+    const req = https.request(options)
+
+    req.on('response', (res) => {
       let responseData = '';
 
       res.on('data', (chunk) => {
@@ -154,7 +151,7 @@ export async function login(username: string, password: string): Promise<Cookie>
 
 }
 
-export async function getTravelHistoryNextPage(nextpage: NextPage):Promise<TripAndNextPage> {
+export async function getTravelHistoryNextPage(nextpage: NextPage): Promise<TripAndNextPage> {
   return getTravelHistory(nextpage.cookie, nextpage.pageIndex + 5, nextpage.verificationToken)
 }
 
@@ -200,12 +197,33 @@ export async function getTravelHistory(cookies: Cookie, page: number = 1, histor
   return { trips: trips, nextPage: { verificationToken: nextPageVerificationToken, cookie: cookies, pageIndex: page } };
 }
 
-export function printName(trip: Trip): string{
-  const formattedDate = `${trip.date.getFullYear().toString().slice(-2)}-${(
-    "0" +
-    (trip.date.getMonth() + 1)
-  ).slice(-2)}-${("0" + trip.date.getDate()).slice(-2)}`;
-  const formattedAmount = Math.abs(parseFloat(trip.amount)).toFixed(2);
-  return `${formattedDate}_${trip.id}_${formattedAmount}`;
+export async function stringifyCookie(cookie: Cookie): Promise<string> {
+  // Initialize an empty string to store the result
+  let cookieString = '';
+
+  // Iterate over each key-value pair in the cookie object
+  for (const key in cookie) {
+    if (Object.prototype.hasOwnProperty.call(cookie, key)) {
+      // Append key-value pair to the result string
+      cookieString += `${key}=${cookie[key]}; `;
+    }
+  }
+
+  // Remove the trailing semicolon and space
+  cookieString = cookieString.trim().slice(0, -1);
+
+  return cookieString;
 }
 
+export async function cookiefyString(cookieString: string): Promise<Cookie> {
+  const cookie: Cookie = {};
+
+  cookieString.split(';').forEach(segment => {
+    const [key, value] = segment.trim().split('=');
+    if (key && value) {
+      cookie[key] = value;
+    }
+  });
+
+  return cookie;
+}

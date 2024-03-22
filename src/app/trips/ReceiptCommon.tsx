@@ -1,12 +1,13 @@
 'use client'
 
 import React, { ReactElement } from "react";
-import { Trip, printName } from '@/lib/RejseplanRequest'
+import { Trip } from '@/lib/RejseplanRequest'
 import styles from './Receipt.module.css'
 import PrintButton from "./PrintButton";
 import Image from 'next/image'
 import SelectTripCheckbox from "./SelectTripCheckbox";
 import { ParentActionWithBorderChange} from '@/lib/AddRemoveFunction'
+import { printName } from "@/lib/util";
 
 interface ReceiptProps {
     trip: Trip;
@@ -15,7 +16,14 @@ interface ReceiptProps {
 }
 export default function ReceiptCommon({ trip, identity, parentActionWithBorderChange }: ReceiptProps): ReactElement<any, any> {
     const formatDate = (date: Date) => {
-        return new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
+        return new Intl.DateTimeFormat('en-US', { 
+            month: 'long', 
+            day: 'numeric', 
+            year: 'numeric',
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: false // Set to true for 12-hour clock, false for 24-hour clock
+        }).format(date);
     };
 
 

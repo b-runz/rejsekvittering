@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
-// import {requestRejseplan,HttpMethod} from '@/lib/RejseplanRequest'
-import { headers } from 'next/headers'
+import { cookies } from 'next/headers'
+import { login, stringifyCookie } from '@/lib/RejseplanRequest';
 
 interface TokenValue {
     token: string;
@@ -13,21 +13,14 @@ interface UsernamePassword {
 }
 
 export default async function LoginBox() {
-    
-    // async function fetchToken(): Promise<TokenValue> {
-    //     const rejseplanLoginPage = await requestRejseplan("https://selvbetjening.rejsekort.dk/CWS/Home/UserNameLogin", HttpMethod.GET)
-    //     const regexPattern = /<input[^>]*name="__RequestVerificationToken"[^>]*value="([^"]*)"[^>]*>/;
-    //     const extractedToken = (rejseplanLoginPage).match(regexPattern)?.[1] || ""
-        
-    //     //dummy header pull, to have the component be dynamic
-    //     const headersList = headers()        
-
-    //     return { token: extractedToken}
-    // }
 
     async function performLogin(formData: FormData) {
         'use server'
-        console.log(formData.get("Username"))
+        const username = formData.get("Username")?.toString()!
+        const password = formData.get("Password")?.toString()!
+        const rkCookie = await login(username, password)
+        const cookieStore = cookies()
+        cookieStore.set('rklogin', await stringifyCookie(rkCookie))
         redirect('/trips')
     }
 
