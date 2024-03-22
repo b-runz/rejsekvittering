@@ -60,7 +60,7 @@ export default function ReceiptCommon({ trip, identity, parentActionWithBorderCh
                     </tbody>
                 </table>
             </div>
-            <PrintButton identity={identity} fileName={printName(trip)}></PrintButton>
+            <PrintButton identity={identity} fileName={printName(trip)} checkPrinted={parentActionWithBorderChange.addRemoveBorderColor.addRemoveFunc.checkPrinted}></PrintButton>
         </div>
     )
 }

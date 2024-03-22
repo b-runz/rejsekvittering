@@ -25,11 +25,22 @@ export default function ReceiptParentView(): ReactElement<any, any> {
         });
     }
 
+    function setTripToPrinted(identity :string){
+        const moddedTrips = trips.map(t=> {
+            if(getGuid(t) == identity){
+                t.printed = true
+            }
+            return t
+        })
+        setTrips(moddedTrips)
+    }
+
     async function printAll() {
         const JSZip = require('jszip');
         const zip = new JSZip();
         const pictureIds = [...checkedReceipts];
         for (const pictureId of pictureIds) {
+            setTripToPrinted(pictureId)
             const trip = trips.find(trip => pictureId === getGuid(trip))!;
             const pictureBytes = await getPictureBytes(pictureId);
 
@@ -71,8 +82,6 @@ export default function ReceiptParentView(): ReactElement<any, any> {
             data = tripsAndNextPage.trips;
             nextPage = tripsAndNextPage.nextPage
         }
-        console.log(nextPage)
-
         setTrips(prevTrips => [...prevTrips, ...data]);
     setLoading(false);
 
@@ -100,9 +109,9 @@ return (
 
                 {trips.map((trip, id) => (
                     width < 768 ?
-                        <ReceiptSmallScreen trip={trip} identity={getGuid(trip)} key={id} addRemoveFunc={{ add: addCheckedFromPrintAll, remove: removeCheckedFromPrintAll }}></ReceiptSmallScreen>
+                        <ReceiptSmallScreen trip={trip} identity={getGuid(trip)} key={id} addRemoveFunc={{ add: addCheckedFromPrintAll, remove: removeCheckedFromPrintAll, checkPrinted: setTripToPrinted}}></ReceiptSmallScreen>
                         :
-                        <ReceiptBigScreen trip={trip} identity={getGuid(trip)} key={id} addRemoveFunc={{ add: addCheckedFromPrintAll, remove: removeCheckedFromPrintAll }}></ReceiptBigScreen>
+                        <ReceiptBigScreen trip={trip} identity={getGuid(trip)} key={id} addRemoveFunc={{ add: addCheckedFromPrintAll, remove: removeCheckedFromPrintAll, checkPrinted: setTripToPrinted }}></ReceiptBigScreen>
                 ))}
 
                 {loading ? (

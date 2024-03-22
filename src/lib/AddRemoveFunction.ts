@@ -1,6 +1,7 @@
 export type AddRemoveFunction = {
   add: (checked: string) => void;
   remove: (checked: string) => void;
+  checkPrinted: (identity :string) => void;
 };
 
 export type ParentActionFunction = (
