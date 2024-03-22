@@ -1,20 +1,13 @@
 'use client'
-import React, { ReactElement, useEffect } from "react";
-import { Trip, getGuid } from '@/lib/RejseplanRequest'
-import { getPictureBytes } from '@/lib/PicturePrint'
+import React, { ReactElement, useEffect, useCallback, useState } from "react";
+import { Trip, getGuid } from '@/lib/RejseplanRequest';
+import { loadTripsServer } from '@/lib/Functions';
+import { getPictureBytes } from '@/lib/PicturePrint';
 import ReceiptBigScreen from './ReceiptBigScreen';
 import ReceiptSmallScreen from './ReceiptSmallScreen';
 
-interface ReceiptProps {
-    trips: Trip[];
-}
-
-export default function ReceiptParentView({ trips }: ReceiptProps): ReactElement<any, any> {
+export default function ReceiptParentView(): ReactElement<any, any> {
     const [checkedReceipts, setCheckedReceipts] = React.useState(new Set<string>());
-    const [width,setWidth] = React.useState(0);
-    useEffect(() =>{
-        setWidth(window.innerWidth);
-    })
 
     function removeCheckedFromPrintAll(checked: string): void {
         setCheckedReceipts(function (prev: Set<string>): Set<string> {
@@ -50,17 +43,68 @@ export default function ReceiptParentView({ trips }: ReceiptProps): ReactElement
         document.body.removeChild(link);
     }
 
-    return (
+    const [trips, setTrips] = React.useState<Trip[]>([])
+    const [isMounted, setIsMounted] = React.useState(false);
+    const [loading, setLoading] = useState(false)
+    const [width, setWidth] = React.useState(0);
 
-        <div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-                {trips.map((trip, id) => (
-                    width < 768 ?
-                    <ReceiptSmallScreen trip={trip} identity={getGuid(trip)} key={id} addRemoveFunc={{ add: addCheckedFromPrintAll, remove: removeCheckedFromPrintAll }}></ReceiptSmallScreen>
-                    :
-                    <ReceiptBigScreen trip={trip} identity={getGuid(trip)} key={id} addRemoveFunc={{ add: addCheckedFromPrintAll, remove: removeCheckedFromPrintAll }}></ReceiptBigScreen>
-                ))}
+    const loadTrips = useCallback(async () => {
+        setLoading(true);
+        await new Promise(resolve => setTimeout(resolve, 10));
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth' // Instant scroll
+        });
+        const data = await loadTripsServer();
+
+        setTrips(prevTrips => [...prevTrips, ...data]);
+        setLoading(false);
+
+    }, []);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (isMounted) {
+
+            setWidth(window.innerWidth);
+            loadTrips();
+        }
+    }, [isMounted]);
+
+    return (
+        <div className="flex flex-col h-screen">
+            <div className="flex items-center justify-center pb-16">
+                <p className="text-4xl font-bold">Receipts</p>
             </div>
+            <div className="flex-none">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
+
+                    {trips.map((trip, id) => (
+                        width < 768 ?
+                            <ReceiptSmallScreen trip={trip} identity={getGuid(trip)} key={id} addRemoveFunc={{ add: addCheckedFromPrintAll, remove: removeCheckedFromPrintAll }}></ReceiptSmallScreen>
+                            :
+                            <ReceiptBigScreen trip={trip} identity={getGuid(trip)} key={id} addRemoveFunc={{ add: addCheckedFromPrintAll, remove: removeCheckedFromPrintAll }}></ReceiptBigScreen>
+                    ))}
+
+                    {loading ? (
+                        <div className="pb-2 mx-auto border-2 rounded shadow-md bg-white">
+                            <div style={{ width: 380, height: 350 }} className="flex flex-col items-center justify-center">
+                                <div className="w-16 h-16 border-t-4 border-blue-500 rounded-full animate-spin"></div>
+                                <p>Loading...</p>
+                            </div>
+                        </div>
+                    ) : null}
+                </div>
+
+            </div>
+            <div className="flex-grow"></div>
+            <footer className="bg-gray-200 flex justify-center items-center mt-8">
+                <button onClick={loadTrips} className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white m-2 py-2 px-4 border border-blue-500 hover:border-transparent rounded">Load More Receipts</button>
+            </footer>
+
 
             {checkedReceipts.size > 0 && (
                 <div className="fixed bottom-0 w-full bg-gray-200 flex justify-center items-center">
