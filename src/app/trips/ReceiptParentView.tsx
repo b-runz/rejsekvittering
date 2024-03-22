@@ -1,6 +1,6 @@
 'use client'
 import React, { ReactElement, useEffect, useCallback, useState } from "react";
-import { Trip, getGuid } from '@/lib/RejseplanRequest';
+import { Trip, getGuid, printName } from '@/lib/RejseplanRequest';
 import { loadTripsServer } from '@/lib/Functions';
 import { getPictureBytes } from '@/lib/PicturePrint';
 import ReceiptBigScreen from './ReceiptBigScreen';
@@ -29,9 +29,10 @@ export default function ReceiptParentView(): ReactElement<any, any> {
         const zip = new JSZip();
         const pictureIds = [...checkedReceipts];
         for (const pictureId of pictureIds) {
+            const trip = trips.find(trip => pictureId === getGuid(trip))!;
             const pictureBytes = await getPictureBytes(pictureId);
 
-            zip.file(`${pictureId}.png`, pictureBytes);
+            zip.file(`${printName(trip)}.png`, pictureBytes);
         }
 
         const zipContent = await zip.generateAsync({ type: 'blob' });
@@ -53,7 +54,7 @@ export default function ReceiptParentView(): ReactElement<any, any> {
         await new Promise(resolve => setTimeout(resolve, 10));
         window.scrollTo({
             top: document.body.scrollHeight,
-            behavior: 'smooth' // Instant scroll
+            behavior: 'smooth'
         });
         const data = await loadTripsServer();
 
@@ -68,7 +69,6 @@ export default function ReceiptParentView(): ReactElement<any, any> {
 
     useEffect(() => {
         if (isMounted) {
-
             setWidth(window.innerWidth);
             loadTrips();
         }

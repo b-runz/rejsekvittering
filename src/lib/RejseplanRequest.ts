@@ -36,8 +36,9 @@ export interface Trip {
   from: string
   arrival: Date
   to: string
-  amount: string,
+  amount: string
   printed: boolean
+  id: number
 }
 
 interface NextPage {
@@ -47,7 +48,7 @@ interface NextPage {
 }
 export function getGuid(trip: Trip): string{
   const hasher = crypto.createHash('sha256');
-  const data = `${trip.to}${trip.amount}`; // concatenate the strings
+  const data = `${trip.to}${trip.amount}${trip.id}`; // concatenate the strings
   hasher.update(data);
   return hasher.digest('hex');
 }
@@ -191,10 +192,20 @@ export async function getTravelHistory(cookies: Cookie, page: number = 1, histor
       arrival: parseDateString(rejse.Dato + " " + rejse.Tid_2),
       to: rejse.Til,
       amount: rejse['Beloeb kr.'],
-      printed: false
+      printed: false,
+      id: rejse['Rejsenr.']
     })
   }
 
   return { trips: trips, nextPage: { verificationToken: nextPageVerificationToken, cookie: cookies, pageIndex: page } };
+}
+
+export function printName(trip: Trip): string{
+  const formattedDate = `${trip.date.getFullYear().toString().slice(-2)}-${(
+    "0" +
+    (trip.date.getMonth() + 1)
+  ).slice(-2)}-${("0" + trip.date.getDate()).slice(-2)}`;
+  const formattedAmount = Math.abs(parseFloat(trip.amount)).toFixed(2);
+  return `${formattedDate}_${trip.id}_${formattedAmount}`;
 }
 

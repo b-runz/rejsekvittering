@@ -1,7 +1,7 @@
 'use client'
 
 import React, { ReactElement } from "react";
-import { Trip } from '@/lib/RejseplanRequest'
+import { Trip, printName } from '@/lib/RejseplanRequest'
 import styles from './Receipt.module.css'
 import PrintButton from "./PrintButton";
 import Image from 'next/image'
@@ -52,7 +52,7 @@ export default function ReceiptCommon({ trip, identity, parentActionWithBorderCh
                     </tbody>
                 </table>
             </div>
-            <PrintButton identity={identity}></PrintButton>
+            <PrintButton identity={identity} fileName={printName(trip)}></PrintButton>
         </div>
     )
 }

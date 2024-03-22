@@ -28,13 +28,13 @@ function createCanvas(identity: string): {promiseCanvas: Promise<HTMLCanvasEleme
     return {promiseCanvas: html2canvas(clonedElement), clonedElement: clonedElement};
 }
 
-export function printPicture(identity:string) {
+export function printPicture(identity: string, fileName: string) {
     const { promiseCanvas, clonedElement } = createCanvas(identity)
     promiseCanvas.then(canvas=>{
             const dataURL = canvas.toDataURL('image/png');
             const downloadLink = document.createElement('a');
             downloadLink.href = dataURL;
-            downloadLink.download = `${identity}_image.png`;
+            downloadLink.download = `${fileName}.png`;
             downloadLink.click();
             clonedElement.remove();
         })

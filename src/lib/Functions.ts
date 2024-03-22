@@ -15,7 +15,8 @@ export async function loadTripsServer() :Promise<Trip[]> {
             arrival: new Date(),
             to: "ip",
             amount: "-28,80",
-            printed: false
+            printed: false,
+            id: 42
         },
         {
             date: new Date(),
@@ -23,7 +24,8 @@ export async function loadTripsServer() :Promise<Trip[]> {
             arrival: new Date(),
             to: "ip",
             amount: "-28,80",
-            printed: false
+            printed: false,
+            id: 142
         },
         {
             date: new Date(),
@@ -31,7 +33,8 @@ export async function loadTripsServer() :Promise<Trip[]> {
             arrival: new Date(),
             to: "ip",
             amount: "-28,80",
-            printed: false
+            printed: false,
+            id: 242
         },
         {
             date: new Date(),
@@ -39,7 +42,8 @@ export async function loadTripsServer() :Promise<Trip[]> {
             arrival: new Date(),
             to: "ip",
             amount: "-28,80",
-            printed: false
+            printed: false,
+            id: 342
         },
         {
             date: new Date(),
@@ -47,7 +51,8 @@ export async function loadTripsServer() :Promise<Trip[]> {
             arrival: new Date(),
             to: "ip",
             amount: "-28,80",
-            printed: false
+            printed: false,
+            id: 442
         },
         {
             date: new Date(),
@@ -55,7 +60,8 @@ export async function loadTripsServer() :Promise<Trip[]> {
             arrival: new Date(),
             to: "ip",
             amount: "-28,80",
-            printed: false
+            printed: false,
+            id: 542
         },
     ]
 
