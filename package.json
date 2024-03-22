@@ -12,6 +12,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "cookies-next": "^4.1.1",
     "html2canvas": "^1.4.1",
     "https": "^1.0.0",
     "jszip": "^3.10.1",
