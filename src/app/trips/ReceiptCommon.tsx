@@ -25,8 +25,7 @@ export default function ReceiptCommon({ trip, identity, parentActionWithBorderCh
             hour12: false // Set to true for 12-hour clock, false for 24-hour clock
         }).format(date);
     };
-
-
+    
     return (
         <div>
             <div className="relative w-full">

@@ -1,0 +1,5 @@
+// import {login, getTravelHistory, cookiefyString}  from './RejseplanRequest'
+
+// getTravelHistory(cookiefyString(".ASPXAUTH=; .AspNet.ExternalCookie=; .AspNet.ApplicationCookie=-vRyNtFTd5Tb7SxMQn8Hl5xjpKP8GPa_4rPqiiapdhbIriPgWzsUvsni3cYcez8YKJbq9ktTGaHXI7OJ4htgL5ZP3UybsNSk-gnkHbhJAEs47GSFQzpjJE38yz98Etvqt8i_2Tka4BmDjl5uRz3G6-zu83LB-r0dngfy4m_2seYxnVAk3qbE-R9TdBBybs1h18PcM4SiLHK_WmBXejFC8xZmyc2loRAs4-qpKPRqBY0Vo1rLR7A8rsqy8L-4blp90XPng758SS0aRN3LG2EcWlEa-H5PGi_6opQgoqmOrRoiaQ_vvM3QRpt5fB-qKBhHzJzEQ-bHO8iyeaKHoPaxiQo94GQRjYiCZS_3KwlqjqKhKk8GsSKJdUluHq36NO2_xk_Wrw; NSC_wtws_dxt=ffffffff099e2b9a45525d5f4f58455e445a4a423660; ASP.NET_SessionId=skvwpp4tktqx15ehq4hx3x2s; __RequestVerificationToken_L0NXUw2=AZQiFHNSvLh271KkjwJIolbhOlJ99FhHTcCBJ9icU_8nfOvaYXjORjcO1koNsC22906FPZxSf4dZOTVwhvqNQjsL6gA1")).then(tripPage=>{
+//         console.log(tripPage.trips)
+//     })
