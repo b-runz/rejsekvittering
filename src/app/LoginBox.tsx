@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
-import { login, stringifyCookie } from '@/lib/RejseplanRequest';
+import { checkCookie, cookiefyString, login, stringifyCookie } from '@/lib/RejseplanRequest';
 
 interface TokenValue {
     token: string;
@@ -24,6 +24,13 @@ export default async function LoginBox() {
         redirect('/trips')
     }
 
+    const cookieStore = cookies()
+    if (cookieStore.has('rklogin')) {
+        const cookie = await cookiefyString(cookieStore.get('rklogin')?.value!)
+        if (await checkCookie(cookie)) {
+            return redirect('/trips')
+        }
+    }
     // const token = await fetchToken()
     return (
         <div className="bg-white p-8 rounded shadow-md w-96">

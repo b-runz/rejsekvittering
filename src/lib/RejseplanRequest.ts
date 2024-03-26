@@ -12,6 +12,7 @@ enum HttpMethod {
 interface HttpResponse {
   responseData: string;
   responseHeaders: IncomingHttpHeaders;
+  responseCode: number | undefined;
 }
 
 interface Cookie {
@@ -68,6 +69,7 @@ function requestRejseplan(path: string, method: HttpMethod, headers: OutgoingHtt
         const response: HttpResponse = {
           responseData: responseData,
           responseHeaders: res.headers,
+          responseCode: res.statusCode
         };
         resolve(response);
       });
@@ -153,6 +155,11 @@ export async function login(username: string, password: string): Promise<Cookie>
 
 export async function getTravelHistoryNextPage(nextpage: NextPage): Promise<TripAndNextPage> {
   return getTravelHistory(nextpage.cookie, nextpage.pageIndex + 5, nextpage.verificationToken)
+}
+
+export async function checkCookie(cookies: Cookie) : Promise<boolean> {
+  const page = await requestRejseplan("https://selvbetjening.rejsekort.dk/CWS/TransactionServices/TravelCardHistory", HttpMethod.GET, { "Cookie": formatCookies(cookies) })
+  return page.responseCode === 200
 }
 
 export async function getTravelHistory(cookies: Cookie, page: number = 1, historyToken?: string): Promise<TripAndNextPage> {
