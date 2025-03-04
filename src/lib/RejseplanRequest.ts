@@ -53,7 +53,8 @@ function requestRejseplan(path: string, method: HttpMethod, headers: OutgoingHtt
       port: 443,
       path: reqPath,
       method: method,
-      headers: headers
+      headers: headers,
+      rejectUnauthorized: false
     };
 
     const req = https.request(options)
