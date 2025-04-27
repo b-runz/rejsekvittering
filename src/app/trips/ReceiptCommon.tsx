@@ -22,7 +22,8 @@ export default function ReceiptCommon({ trip, identity, parentActionWithBorderCh
             year: 'numeric',
             hour: '2-digit', 
             minute: '2-digit',
-            hour12: false // Set to true for 12-hour clock, false for 24-hour clock
+            hour12: false, // Set to true for 12-hour clock, false for 24-hour clock
+            timeZone: 'Europe/Paris'
         }).format(date);
     };
     
