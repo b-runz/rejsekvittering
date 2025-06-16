@@ -19,12 +19,12 @@ export default async function LoginBox() {
         const username = formData.get("Username")?.toString()!
         const password = formData.get("Password")?.toString()!
         const rkCookie = await login(username, password)
-        const cookieStore = cookies()
+        const cookieStore = await cookies()
         cookieStore.set('rklogin', await stringifyCookie(rkCookie))
         redirect('/trips')
     }
 
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     if (cookieStore.has('rklogin')) {
         const cookie = await cookiefyString(cookieStore.get('rklogin')?.value!)
         if (await checkCookie(cookie)) {
@@ -35,7 +35,7 @@ export default async function LoginBox() {
     return (
         <div className="bg-white p-8 rounded shadow-md w-96">
             <h1 className="text-2xl font-semibold mb-6">Login</h1>
-            <form action={performLogin} method="post">
+            <form action={performLogin} method="POST">
                 {/* <input name="__RequestVerificationToken" type="hidden" value={token.token} /> */}
                 <input id="ReturnUrl" name="ReturnUrl" type="hidden" value="" />
                 <div className="mb-4">

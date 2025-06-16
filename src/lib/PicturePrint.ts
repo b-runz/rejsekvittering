@@ -1,5 +1,5 @@
 
-import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas-pro';
 
 function createCanvas(identity: string): {promiseCanvas: Promise<HTMLCanvasElement>, clonedElement: HTMLElement} {
     const element = document.getElementById(identity)!;
