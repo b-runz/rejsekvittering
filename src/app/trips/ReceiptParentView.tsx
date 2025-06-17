@@ -74,8 +74,8 @@ export default function ReceiptParentView(){
         });
         let data: Trip[] = [];
         if (nextPage == null) {
-            const rkCookie = await getCookie("rklogin")!
-            const cookie = await cookiefyString(rkCookie)
+            const rkCookie = await getCookie("rklogin")
+            const cookie = await cookiefyString(rkCookie!)
             const tripsAndNextPage = await getTravelHistory(cookie);
             data = tripsAndNextPage.trips;
             nextPage = tripsAndNextPage.nextPage
