@@ -8,7 +8,8 @@ export default async function Page() {
   if (!cookieStore.has('rklogin')) {
     redirect('/')
   } else{
-    const cookie = await cookiefyString(cookieStore.get('rklogin')?.value!)
+    const cookieValue = cookieStore.get('rklogin')?.value ?? ''
+    const cookie = await cookiefyString(cookieValue)
     const cookieValid = await checkCookie(cookie)
     if (!cookieValid) {
         return redirect('/')

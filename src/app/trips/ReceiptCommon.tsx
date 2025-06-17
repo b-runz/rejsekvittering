@@ -14,7 +14,7 @@ interface ReceiptProps {
     identity: string;
     parentActionWithBorderChange: ParentActionWithBorderChange;
 }
-export default function ReceiptCommon({ trip, identity, parentActionWithBorderChange }: ReceiptProps): ReactElement<any, any> {
+export default function ReceiptCommon({ trip, identity, parentActionWithBorderChange }: ReceiptProps){
     const formatDate = (date: Date) => {
         return new Intl.DateTimeFormat('en-US', { 
             month: 'long', 

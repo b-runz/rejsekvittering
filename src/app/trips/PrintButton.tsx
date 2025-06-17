@@ -9,7 +9,7 @@ interface ButtonProps {
     checkPrinted: (identity :string) => void;
 }
 
-export default function PrintButton({ identity, fileName, checkPrinted }: ButtonProps): ReactElement<any, any> {
+export default function PrintButton({ identity, fileName, checkPrinted }: ButtonProps) {
     return (
         <button onClick={() => {
             printPicture(identity, fileName)

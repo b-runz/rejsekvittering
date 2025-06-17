@@ -8,7 +8,7 @@ interface CheckboxProps {
   identity: string; 
 }
 
-export default function SelectTripCheckbox({ identity, parentActionWithBorderChange}: CheckboxProps): ReactElement<any, any> {
+export default function SelectTripCheckbox({ identity, parentActionWithBorderChange}: CheckboxProps){
     return (
         <input 
         onChange={event => parentActionWithBorderChange.toggleBorder(event, identity, parentActionWithBorderChange.addRemoveBorderColor)} style={{margin:3}} 

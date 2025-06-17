@@ -8,7 +8,7 @@ import ReceiptSmallScreen from './ReceiptSmallScreen';
 import { getGuid, printName } from "@/lib/util";
 import {useLocalStorage} from '@/lib/util';;
 
-export default function ReceiptParentView(): ReactElement<any, any> {
+export default function ReceiptParentView(){
     const [checkedReceipts, setCheckedReceipts] = React.useState(new Set<string>());
     const [checkPersisted, setCheckPersisted] = useLocalStorage("", new Set<string>())
 

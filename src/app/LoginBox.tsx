@@ -2,22 +2,15 @@ import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { checkCookie, cookiefyString, login, stringifyCookie } from '@/lib/RejseplanRequest';
 
-interface TokenValue {
-    token: string;
-}
-
-interface UsernamePassword {
-    Username: string;
-    Password: string;
-    RequestVerificationToken: string;
-}
-
 export default async function LoginBox() {
 
     async function performLogin(formData: FormData) {
         'use server'
-        const username = formData.get("Username")?.toString()!
-        const password = formData.get("Password")?.toString()!
+        const username = formData.get("Username")?.toString()
+        const password = formData.get("Password")?.toString()
+        if (!username || !password) {
+            throw new Error("Username and password are required")
+        }
         const rkCookie = await login(username, password)
         const cookieStore = await cookies()
         cookieStore.set('rklogin', await stringifyCookie(rkCookie))
@@ -26,7 +19,8 @@ export default async function LoginBox() {
 
     const cookieStore = await cookies()
     if (cookieStore.has('rklogin')) {
-        const cookie = await cookiefyString(cookieStore.get('rklogin')?.value!)
+        const cookieValue = cookieStore.get('rklogin')?.value ?? ''
+        const cookie = await cookiefyString(cookieValue)
         if (await checkCookie(cookie)) {
             return redirect('/trips')
         }

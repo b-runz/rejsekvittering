@@ -48,7 +48,7 @@ export async function getPictureBytes(identity:string) : Promise<Uint8Array> {
     const byteString = atob(dataURL.split(',')[1]);
     const byteArray = new Uint8Array(byteString.length);
 
-    for (var i = 0; i < byteString.length; i++) {
+    for (let i = 0; i < byteString.length; i++) {
       byteArray[i] = byteString.charCodeAt(i);
     }
 

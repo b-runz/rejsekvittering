@@ -10,7 +10,7 @@ interface ReceiptProps {
   identity: string;
   addRemoveFunc: AddRemoveFunction;
 }
-export default function ReceiptBigScreen({ trip, identity, addRemoveFunc }: ReceiptProps): ReactElement<any, any> {
+export default function ReceiptBigScreen({ trip, identity, addRemoveFunc }: ReceiptProps){
   const [borderColor, setBorderColor] = React.useState('border-gray-100')
 
 
