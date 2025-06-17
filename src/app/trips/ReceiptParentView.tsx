@@ -1,7 +1,7 @@
 'use client'
 import React, { ReactElement, useEffect, useCallback, useState } from "react";
 import { Trip, cookiefyString, getTravelHistory, NextPage, getTravelHistoryNextPage } from '@/lib/RejseplanRequest';
-import { getCookie } from 'cookies-next'
+import { CookieValueTypes, getCookie } from 'cookies-next'
 import { getPictureBytes } from '@/lib/PicturePrint';
 import ReceiptBigScreen from './ReceiptBigScreen';
 import ReceiptSmallScreen from './ReceiptSmallScreen';
@@ -74,7 +74,7 @@ export default function ReceiptParentView(){
         });
         let data: Trip[] = [];
         if (nextPage == null) {
-            const rkCookie = getCookie("rklogin")!
+            const rkCookie = await getCookie("rklogin")!
             const cookie = await cookiefyString(rkCookie)
             const tripsAndNextPage = await getTravelHistory(cookie);
             data = tripsAndNextPage.trips;
