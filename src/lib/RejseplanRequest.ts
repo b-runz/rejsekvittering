@@ -6,6 +6,42 @@ import { Tabletojson } from 'tabletojson';
 import { HttpMethod, HttpResponse, Cookie, NextPage, TripAndNextPage, Trip } from './helper';
 
 
+export interface Cookie {
+  [key: string]: string;
+}
+
+export interface TripAndNextPage {
+  trips: Trip[],
+  nextPage: NextPage
+}
+
+export interface Trip {
+  date: Date
+  from: string
+  arrival: Date
+  to: string
+  amount: string
+  printed: boolean
+  id: number
+}
+
+export interface NextPage {
+  verificationToken: string
+  cookie: Cookie
+  pageIndex: number
+}
+
+enum HttpMethod {
+  GET = 'GET',
+  POST = 'POST',
+}
+
+interface HttpResponse {
+  responseData: string;
+  responseHeaders: IncomingHttpHeaders;
+  responseCode: number | undefined;
+}
+
 export async function requestRejseplan(path: string, method: HttpMethod, headers: OutgoingHttpHeaders = {}, data: string = ""): Promise<HttpResponse> {
   console.log(`requestRejseplan: Initiating ${method} request to ${path}`);
   return new Promise((resolve, reject) => {
