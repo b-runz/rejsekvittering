@@ -3,44 +3,10 @@
 import * as https from 'https';
 import { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
 import { Tabletojson } from 'tabletojson';
+import { HttpMethod, HttpResponse, Cookie, NextPage, TripAndNextPage, Trip } from './helper';
 
-enum HttpMethod {
-  GET = 'GET',
-  POST = 'POST',
-}
 
-interface HttpResponse {
-  responseData: string;
-  responseHeaders: IncomingHttpHeaders;
-  responseCode: number | undefined;
-}
-
-interface Cookie {
-  [key: string]: string;
-}
-
-export interface TripAndNextPage {
-  trips: Trip[],
-  nextPage: NextPage
-}
-
-export interface Trip {
-  date: Date
-  from: string
-  arrival: Date
-  to: string
-  amount: string
-  printed: boolean
-  id: number
-}
-
-export interface NextPage {
-  verificationToken: string
-  cookie: Cookie
-  pageIndex: number
-}
-
-function requestRejseplan(path: string, method: HttpMethod, headers: OutgoingHttpHeaders = {}, data: string = ""): Promise<HttpResponse> {
+export async function requestRejseplan(path: string, method: HttpMethod, headers: OutgoingHttpHeaders = {}, data: string = ""): Promise<HttpResponse> {
   console.log(`requestRejseplan: Initiating ${method} request to ${path}`);
   return new Promise((resolve, reject) => {
     const url = require('url');
@@ -117,7 +83,7 @@ function extractCookies(headers: IncomingHttpHeaders): Cookie {
   return cookies;
 }
 
-function getInputVerificationToken(page: string): string {
+export async function getInputVerificationToken(page: string): Promise<string> {
   console.log(`getInputVerificationToken: Extracting token from page data (length: ${page.length})`);
   const regexPattern = /<input[^>]*name="__RequestVerificationToken"[^>]*value="([^"]*)"[^>]*>/;
   const token = (page).match(regexPattern)?.[1] || "";
@@ -157,7 +123,7 @@ export async function login(username: string, password: string): Promise<Cookie>
   console.log(`login: Starting login with username: ${username}`);
   const loginMainPageResponse: HttpResponse = await requestRejseplan("https://selvbetjening.rejsekort.dk/CWS/Home/UserNameLogin", HttpMethod.GET);
   console.log(`login: Received login page response, status: ${loginMainPageResponse.responseCode}`);
-  const requestTokenHidden = getInputVerificationToken(loginMainPageResponse.responseData);
+  const requestTokenHidden = await getInputVerificationToken(loginMainPageResponse.responseData);
   console.log(`login: Extracted verification token: ${requestTokenHidden}`);
   let cookies = extractCookies(loginMainPageResponse.responseHeaders);
   console.log(`login: Cookies from GET response:`, cookies);
@@ -208,7 +174,7 @@ export async function getTravelHistory(cookies: Cookie, page: number = 1, histor
       { "Cookie": formatCookies(cookies) }
     );
     console.log(`getTravelHistory: Initial page response, status: ${travelHistory.responseCode}`);
-    historyToken = getInputVerificationToken(travelHistory.responseData);
+    historyToken = await getInputVerificationToken(travelHistory.responseData);
     console.log(`getTravelHistory: Extracted history token: ${historyToken}`);
     cookies = { ...extractCookies(travelHistory.responseHeaders), ...cookies };
     console.log(`getTravelHistory: Updated cookies:`, cookies);
@@ -226,7 +192,7 @@ export async function getTravelHistory(cookies: Cookie, page: number = 1, histor
   console.log(`getTravelHistory: POST response, status: ${allTravelsPageOne.responseCode}`);
   cookies = { ...extractCookies(allTravelsPageOne.responseHeaders), ...cookies };
   console.log(`getTravelHistory: Updated cookies after POST:`, cookies);
-  const nextPageVerificationToken = getInputVerificationToken(allTravelsPageOne.responseData);
+  const nextPageVerificationToken = await getInputVerificationToken(allTravelsPageOne.responseData);
   console.log(`getTravelHistory: Next page verification token: ${nextPageVerificationToken}`);
 
   const replacements: { [key: string]: string } = {
