@@ -3,7 +3,6 @@
 import * as https from 'https';
 import { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
 import { Tabletojson } from 'tabletojson';
-import { HttpMethod, HttpResponse, Cookie, NextPage, TripAndNextPage, Trip } from './helper';
 
 
 export interface Cookie {
